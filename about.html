@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宋其臻 | Robin Song</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/disable-scroll.css">
+    
+    <!-- TailwindCSS 通过CDN引入 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // 配置Tailwind主题 - 灰橙配色(亮色)和青色品红(暗色)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            // 橙色系列(亮色模式主色)
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        secondary: {
+                            // 灰色系列(亮色模式辅助色) 
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            500: '#6b7280',
+                            600: '#4b5563',
+                            700: '#374151',
+                            800: '#1f2937',
+                            900: '#111827',
+                        },
+                        dark: {
+                            // 深色背景
+                            100: '#121218',
+                            200: '#1e1e2a',
+                            300: '#2c2c3a',
+                            400: '#3a3a4a',
+                        },
+                        // 暗色模式专用颜色
+                        cyan: {
+                            // 青色(暗色模式主色)
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        },
+                        magenta: {
+                            // 品红色(暗色模式辅助色)
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            200: '#f5d0fe',
+                            300: '#f0abfc',
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf',
+                            800: '#86198f',
+                            900: '#701a75',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    transitionProperty: {
+                        'height': 'height',
+                        'spacing': 'margin, padding',
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
+    <!-- 导航栏 -->  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="flex justify-between h-16">  
+                <!-- Logo & Site Name -->
+                <div class="flex items-center">
+                    <a href="/index.html" class="w-12 h-12 sm:w-16 sm:h-16 mr-2">  
+                        <img src="/images/ViewCapture20250221_005142.png" alt="Logo" class="w-12 h-12 sm:w-16 sm:h-16">
+                    </a>  
+                    <a href="/index.html" class="px-2 sm:px-5 py-2 hover:text-primary-500 dark:hover:text-magenta-400 hidden sm:block">  
+                        <span class="lang-en">Robin Song</span>  
+                    </a>
+                </div>  
+                
+                <!-- Mobile menu button -->
+                <div class="flex md:hidden items-center">
+                    <button id="mobileMenuBtn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop Navigation - hidden on mobile -->
+                <div class="hidden md:flex items-center space-x-4">  
+                    <a href="/index.html" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                        <span class="lang-en">Home</span>  
+                    </a>  
+                    <div class="relative group">
+                        <a href="#projects" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                            <span class="lang-en">Design</span>
+                        </a>  
+                        <div class="absolute hidden group-hover:block bg-white/90 dark:bg-dark-200/90 backdrop-blur-sm shadow-md py-2 min-w-[200px] top-full left-0 rounded-lg">  
+                            <a href="/projects/design/probability.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Probability</span>  
+                            </a>  
+                            <a href="/projects/design/form-force.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Form and Force</span>  
+                            </a>  
+                            <a href="/projects/design/still.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">        
+                                <span class="lang-en">Still</span>  
+                            </a>  
+                            <a href="/projects/design/yokai.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Yokai Hall</span>  
+                            </a>  
+                        </div>  
+                    </div>
+                    <div class="relative group">
+                        <a href="#" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                            <span class="lang-en">Code</span>  
+                        </a>  
+                        <div class="absolute hidden group-hover:block bg-white/90 dark:bg-dark-200/90 backdrop-blur-sm shadow-md py-2 min-w-[200px] top-full left-0 rounded-lg">  
+                            <a href="/projects/code/StableShape.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">StableShape</span>  
+                            </a>  
+                            <a href="/projects/code/Seg & Predict.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Seg & Predict</span>  
+                            </a>  
+                            <a href="/projects/code/Building Generator.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">        
+                                <span class="lang-en">Building Generator</span>  
+                            </a>
+                        </div>  
+                    </div>  
+                    <a href="/about.html" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                        <span class="lang-en">About Me</span>  
+                    </a>  
+                    <div class="flex space-x-2 ml-1">
+                        <a href="https://www.linkedin.com/in/qizhen-song-b30993341/" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">  
+                            <i class="fab fa-linkedin text-xl"></i>  
+                        </a>  
+                        <a href="https://github.com/Robin-Song-Design" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">  
+                            <i class="fab fa-github text-xl"></i>  
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200" id="wechatIcon">  
+                            <i class="fab fa-weixin text-xl"></i>  
+                        </a>
+                    </div>
+                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200">  
+                        <i class="fas fa-sun text-gray-600 dark:text-gray-300 dark:hidden"></i>  
+                        <i class="fas fa-moon text-gray-300 hidden dark:block"></i>  
+                    </button>  
+                </div>  
+            </div>
+            
+            <!-- Mobile menu - hidden by default -->
+            <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-dark-200 mt-2 rounded-lg shadow-lg overflow-hidden">
+                <div class="py-2">
+                    <a href="/index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <span class="lang-en">Home</span>
+                    </a>
+                    
+                    <!-- Mobile Design dropdown -->
+                    <div id="mobileDesignDropdown" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="lang-en">Design</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Design menu items -->
+                    <div id="mobileDesignMenu" class="hidden bg-gray-50 dark:bg-dark-300">
+                        <a href="/projects/design/probability.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Probability</span>
+                        </a>
+                        <a href="/projects/design/form-force.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Form and Force</span>
+                        </a>
+                        <a href="/projects/design/still.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Still</span>
+                        </a>
+                        <a href="/projects/design/yokai.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Yokai Hall</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Code dropdown -->
+                    <div id="mobileCodeDropdown" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="lang-en">Code</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Code menu items -->
+                    <div id="mobileCodeMenu" class="hidden bg-gray-50 dark:bg-dark-300">
+                        <a href="/projects/code/StableFluid.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">StableFluid</span>
+                        </a>
+                        <a href="/projects/code/Seg & Predict.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span >Seg & Predict</span>
+                        </a>
+                        <a href="/projects/code/Building Generator.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span >Building Generator</span>
+                        </a>
+                    </div>
+                    
+                    <a href="/about.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <span>About Me</span>
+                    </a>
+                    
+                    <div class="border-t border-gray-100 dark:border-dark-400 my-2"></div>
+                    
+                    <!-- Social links in mobile menu -->
+                    <div class="flex justify-center space-x-6 py-2">
+                        <a href="https://www.linkedin.com/in/qizhen-song-b30993341/" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="https://github.com/Robin-Song-Design" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="javascript:void(0)" id="mobileWechatIcon" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-weixin text-xl"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 dark:border-dark-400 my-2"></div>
+                    
+                    <!-- Language & Theme toggles in mobile menu -->
+                    <div class="flex px-4 py-2 justify-around">
+                        <button id="mobileThemeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300">
+                            <i class="fas fa-sun dark:hidden"></i>
+                            <i class="fas fa-moon hidden dark:block"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 关于内容 -->  
+    <main class="pt-24 pb-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">  
+        <header class="mb-16">  
+            <div>  
+                <h1 class="text-4xl font-light mb-2">About Me</h1>  
+            </div>  
+        </header>  
+        
+        <!-- 个人简介部分 -->  
+        <section class="mb-20">  
+            <div class="grid grid-cols-12 gap-12">  
+                <div class="col-span-12 md:col-span-4">  
+                    <div class="aspect-square bg-gray-100 dark:bg-dark-300 overflow-hidden">  
+                        <!-- 个人照片 -->  
+                        <img src="/images/self.png" alt="sqz" class="w-full h-full object-cover">  
+                    </div>  
+                </div>  
+                <div class="col-span-12 md:col-span-8">
+                    <div>
+                        <p class="text-lg mb-6">I am Robin Song,  My design interests span architectural design, landscape design, and urban planning, with a particular focus on combining algorithms with design and exploring the relationship between form and mechanics.</p>  
+                    </div>
+                    <div>  
+                        <h2 class="text-2xl font-light mb-6">Education</h2> 
+                        <div class="mb-6">  
+                            <h3 class="text-xl mb-1">University College London</h3>  
+                            <p class="text-gray-600 dark:text-gray-400">Architectural Computation | Sep 2024. - Sep 2025</p>  
+                        </div> 
+                        <div class="mb-6">  
+                            <h3 class="text-xl mb-1">Beijing Forestry University</h3>  
+                            <p class="text-gray-600 dark:text-gray-400">Major: Landscape Gardening | Sep 2019 - Jun 2023</p>  
+                        </div>  
+                    </div>  
+                </div>
+
+            </div>
+        </section>
+        
+
+        <!-- 技能部分 -->  
+        <section id="skills" class="mb-16 scroll-reveal pt-32" style="animation-delay: 0.2s;">  
+            
+            <!-- 马赛克风格的技能模块 -->  
+            <div class="grid grid-cols-6 sm:grid-cols-12 gap-2 md:gap-4 border border-white dark:border-dark-100">  
+                <!-- 第一行 -->  
+                <!-- Rhino -->  
+                <div class="rounded-lg col-span-6 sm:col-span-6 aspect-[3/1] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-cube text-xl sm:text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">Rhino & Grasshopper</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-500 dark:bg-magenta-500 h-1 sm:h-1.5 rounded-full" style="width: 80%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/95 dark:from-magenta-500/95 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p >Parametric design and algorithmic modeling tool for complex geometry generation and form analysis</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                
+                <!-- Revit -->  
+                <div class="col-span-3 sm:col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-building text-xl sm:text-3xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">Revit</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-200 dark:bg-magenta-200 h-1 sm:h-1.5 rounded-full" style="width: 30%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/30 dark:from-magenta-500/30 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="text-xs sm:text-sm">Building Information Modeling (BIM)</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+
+                <!-- Photoshop -->  
+                <div class="col-span-3 sm:col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-image text-xl sm:text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">PS & AI</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-500 dark:bg-magenta-500 h-1 sm:h-1.5 rounded-full" style="width: 85%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/95 dark:from-magenta-500/95 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="text-xs sm:text-sm">Image editing and diagram creation</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                
+                <!-- 第二行 -->  
+                <!-- C# -->  
+                <div class="col-span-3 sm:col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fab fa-microsoft text-xl sm:text-3xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">C#</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-400 dark:bg-magenta-400 h-1 sm:h-1.5 rounded-full" style="width: 70%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/95 dark:from-magenta-500/95 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="text-xs sm:text-sm">Core language for Rhino and Grasshopper plugin development, creating complex design tools and automation workflows</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+
+                <!-- Python -->  
+                <div class="col-span-3 sm:col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fab fa-python text-xl sm:text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">Python</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-300 dark:bg-magenta-300 h-1 sm:h-1.5 rounded-full" style="width: 50%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/50 dark:from-magenta-500/50 to-primary-500/50 dark:to-magenta-500/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">   
+                                <p class="text-xs sm:text-sm">Machine Learning and Automated Processes</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+
+                <!-- HTML css js -->  
+                <div class="col-span-6 sm:col-span-6 aspect-[3/1] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fab fa-html5 text-xl sm:text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">HTML & CSS & JavaScript</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-200 dark:bg-magenta-200 h-1 sm:h-1.5 rounded-full" style="width: 30%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/30 dark:from-magenta-500/30 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">   
+                                <p class="text-xs sm:text-sm">Web structure and styling and functionality</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+
+                <!-- Unity -->  
+                <div class=" col-span-3 sm:col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-2 sm:p-4">  
+                            <div class="text-center">  
+                                <div class="mb-1 sm:mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-gamepad text-xl sm:text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium text-sm sm:text-base">Unity</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1 sm:h-1.5 mt-1 sm:mt-2">  
+                                    <div class="bg-primary-300 dark:bg-magenta-300 h-1 sm:h-1.5 rounded-full" style="width: 60%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/60 dark:from-magenta-500/60 to-primary-500/70 dark:to-magenta-500/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 sm:p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="text-xs sm:text-sm">Interactive 3D experiences and visualization design</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div> 
+                
+                <!-- UE -->  
+                <div class="col-span-3 aspect-[3/2] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-4">  
+                            <div class="text-center">  
+                                <div class="mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-vr-cardboard text-2xl"></i>  
+                                </div>  
+                                <div class="font-medium">Unreal Engine</div>  
+                                <div class="w-full bg-gray-200 dark:bg-dark-300 rounded-full h-1.5 mt-2">  
+                                    <div class="bg-primary-300 dark:bg-magenta-300 h-1.5 rounded-full" style="width: 30%"></div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/30 dark:from-magenta-500/30 to-primary-500/30 dark:to-magenta-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="sm:text-sm">High-quality rendering and real-time visualization and interaction</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                
+                <!-- 第五行 -->
+                <!-- Rhino & GH Plugin -->  
+                <div class="col-span-6 aspect-[3/1] group skill-item border border-white dark:border-dark-100">  
+                    <div class="bg-white dark:bg-dark-200 h-full w-full overflow-hidden relative">  
+                        <div class="flex items-center justify-center h-full p-4">  
+                            <div class="text-center w-full">  
+                                <div class="flex justify-center space-x-16 mb-2 text-primary-500 dark:text-magenta-400">  
+                                    <i class="fas fa-puzzle-piece text-3xl"></i>  
+                                    <i class="fas fa-cogs text-3xl"></i>  
+                                </div>  
+                                <div class="font-medium">Rhino & Grasshopper Plugin Development</div>  
+                                <div class="w-2/3 mx-auto bg-gray-200 dark:bg-dark-300 rounded-full h-2 mt-3">  
+                                    <div class="bg-primary-300 dark:bg-magenta-300 h-2 rounded-full" style="width: 30%"></div>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-500/30 dark:from-magenta-500/30 to-primary-500/30 dark:to-magenta-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex items-end">  
+                            <div class="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">  
+                                <p class="text-xs sm:text-sm">Professional Rhino and Grasshopper plugin development, creating custom tools and components to extend design software capabilities</p>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </section>
+
+        <!-- 经验部分 -->
+        <section id="experience" class="mb-16 scroll-reveal pt-32" style="animation-delay: 0.4s;">
+            
+            <div class="space-y-6">
+                <!-- 经验 1 -->
+                <div class="bg-white dark:bg-dark-200 rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-200">
+                    <div class="flex flex-col mb-4">
+                        <!-- 职位部分 -->
+                        <div class="text-xl font-bold mb-2">
+                            <div>Architect</div>
+                        </div>
+                        
+                        <!-- 公司名称部分 -->
+                        <div class="text-primary-600 dark:text-magenta-400 mb-2">
+                            <div >dEEP Architects</div>
+                        </div>
+                        
+                        <!-- 时间部分 -->
+                        <div>
+                            <div>2023.3 - 2023.7</div>
+                            <div>Mar 2023 - Jul 2023</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 内容部分 -->
+                    <div>
+                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
+                            <li>Responsible for architectural design for Huairou Villa project, completed architectural floorplandevelopment and elevation/section designs</li>
+                            <li>Responsible for the parametric optimization portion of the project, completed the facade development work for the high-rise office complex in Dingzhou, Hebei.</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- 经验 2 -->
+                <div class="bg-white dark:bg-dark-200 rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-200">
+                    <div class="flex flex-col mb-4">
+                        <div class="text-xl font-bold mb-2">
+                            <div>Landscape Architect</div>
+                        </div>
+                        <div class="text-primary-600 dark:text-magenta-400 mb-2">
+                            <div>Shenzhen Meidao Landscape Architecture & Urban Planning & Design Institute</div>
+                        </div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-2 sm:mt-0">
+                            <div>2020.7 - 2020.9</div>
+                            <div>Jul 2021 - Sep 2021</div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
+                            <li>Led the design team in developing user experience and interface designs for multiple products</li>
+                            <li>Utilizing computer vision semantic segmentation technology to rapidly identify building outlines on site, significantly improving design efficiency.</li>
+                            <li>Established and maintained the company design system, ensuring visual and interactive consistency across products</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 联系部分 -->
+        <section id="contact" class="mb-16 scroll-reveal" style="animation-delay: 0.5s;">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-8">Contact Me</h2>
+            </div>
+            
+            <div class="bg-white dark:bg-dark-200 rounded-xl shadow-md p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 介绍部分 -->
+                    <div class="md:col-span-3">
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">Contact Information</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">
+                                If you're interested in my work or want to discuss potential collaboration opportunities, please feel free to contact me.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 联系方式 -->
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="text-primary-500 dark:text-magenta-400 mr-4">
+                                <i class="fas fa-envelope-open-text text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200">Email</h4>
+                                <p class="text-gray-600 dark:text-gray-400">qizhen.song.24@ucl.ac.uk</p>
+                                <p class="text-gray-600 dark:text-gray-400">songqizhen006@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="text-primary-500 dark:text-magenta-400 mr-4">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200">Location</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">London, United Kingdom</p>
+                                    <p class="text-gray-600 dark:text-gray-400">Shenzhen, China</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="text-primary-500 dark:text-magenta-400 mr-4">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                                <div >
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200">Phone</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">+44 7726437631</p>
+                                    <p class="text-gray-600 dark:text-gray-400">+86 185 6583 5262</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 社交媒体 -->
+                    <div class="md:col-span-3 mt-4 pt-4 border-t border-gray-100 dark:border-dark-300">
+                        <div class="flex flex-wrap items-center justify-center">
+                            
+                            <div class="flex space-x-6 mt-2">
+                                <a href="https://www.linkedin.com/in/qizhen-song-b30993341/" target="_blank" class="text-gray-200 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">
+                                    <i class="fab fa-linkedin text-2xl"></i>
+                                </a>
+                                <a href="https://github.com/Robin-Song-Design" target="_blank" class="text-gray-200 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </a>
+                                <a href="javascript:void(1)" class="text-gray-200 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200" id="wechatIcon">  
+                                    <i class="fab fa-weixin text-2xl"></i>
+                                </a>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </main>
+
+        <!-- 微信二维码弹窗 -->
+        <div id="wechatModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+            <div class="bg-white dark:bg-dark-200 rounded-lg shadow-xl p-6 max-w-sm mx-auto text-center transform transition-all">
+                
+                <div class="mb-4">
+                    <img src="/images/weixin.jpg" alt="WeChat QR Code" class="w-48 h-64 mx-auto">
+                </div>
+                <button id="closeModal" class="px-4 py-2 bg-primary-500 dark:bg-magenta-500 text-white rounded hover:bg-primary-600 dark:hover:bg-cyan-600 transition-colors">
+                    <span class="lang-en">Close</span>
+                </button>
+            </div>
+        </div>
+    
+    
+        <!-- 页脚 -->
+        <footer class="bg-white dark:bg-dark-200 shadow-inner mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <div class="lang-en">
+                            <p class="text-gray-600 dark:text-gray-400">© 2025 Personal Portfolio. All rights reserved.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors duration-200">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors duration-200">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors duration-200" id="wechatIcon">  
+                            <i class="fab fa-weixin"></i>  
+                        </a>  
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-primary-500 dark:bg-megenta-600 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-600 dark:hover:bg-primary-700">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="/js/theme.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/fullpage-scroll.js"></script>
+</body>
+</html>

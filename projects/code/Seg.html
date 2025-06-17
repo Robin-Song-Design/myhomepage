@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宋其臻 | Robin Song</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- TailwindCSS 通过CDN引入 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // 配置Tailwind主题 - 灰橙配色(亮色)和青色品红(暗色)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            // 橙色系列(亮色模式主色)
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        secondary: {
+                            // 灰色系列(亮色模式辅助色) 
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            500: '#6b7280',
+                            600: '#4b5563',
+                            700: '#374151',
+                            800: '#1f2937',
+                            900: '#111827',
+                        },
+                        dark: {
+                            // 深色背景
+                            100: '#121218',
+                            200: '#1e1e2a',
+                            300: '#2c2c3a',
+                            400: '#3a3a4a',
+                        },
+                        // 暗色模式专用颜色
+                        cyan: {
+                            // 青色(暗色模式主色)
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        },
+                        magenta: {
+                            // 品红色(暗色模式辅助色)
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            200: '#f5d0fe',
+                            300: '#f0abfc',
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf',
+                            800: '#86198f',
+                            900: '#701a75',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    transitionProperty: {
+                        'height': 'height',
+                        'spacing': 'margin, padding',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        #fluidsim_canvas {
+          width: 100%;
+          height: 100%;
+          touch-action: none;
+        }
+        #param_form {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          font-size: small;
+          bottom: 0;
+          right: 0;
+          padding: 1em;
+          background-color: rgba(0, 0, 0, 0.5);
+          color: white;
+        }
+        #param_form > div {
+          display: none;
+          align-items: center;
+          gap: 0.5em;
+        }
+        #display_radio {
+          border: 0;
+          display: flex;
+          gap: 1em;
+        }
+        a {
+          color: white;
+          margin: 0.5em auto;
+          font-size: medium;
+        }
+      </style>
+
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
+    <!-- 导航栏 -->  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="flex justify-between h-16">  
+                <!-- Logo & Site Name -->
+                <div class="flex items-center">
+                    <a href="/index.html" class="w-12 h-12 sm:w-16 sm:h-16 mr-2">  
+                        <img src="/images/ViewCapture20250221_005142.png" alt="Logo" class="w-12 h-12 sm:w-16 sm:h-16">
+                    </a>  
+                    <a href="/index.html" class="px-2 sm:px-5 py-2 hover:text-primary-500 dark:hover:text-magenta-400 hidden sm:block">  
+                        <span class="lang-en">Robin Song</span>  
+                    </a>
+                </div>  
+                
+                <!-- Mobile menu button -->
+                <div class="flex md:hidden items-center">
+                    <button id="mobileMenuBtn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop Navigation - hidden on mobile -->
+                <div class="hidden md:flex items-center space-x-4">  
+                    <a href="/index.html" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                        <span class="lang-en">Home</span>  
+                    </a>  
+                    <div class="relative group">
+                        <a href="#projects" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                            <span class="lang-en">Design</span>
+                        </a>  
+                        <div class="absolute hidden group-hover:block bg-white/90 dark:bg-dark-200/90 backdrop-blur-sm shadow-md py-2 min-w-[200px] top-full left-0 rounded-lg">  
+                            <a href="/projects/design/probability.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Probability</span>  
+                            </a>  
+                            <a href="/projects/design/form-force.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Form and Force</span>  
+                            </a>  
+                            <a href="/projects/design/still.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">        
+                                <span class="lang-en">Still</span>  
+                            </a>  
+                            <a href="/projects/design/yokai.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Yokai Hall</span>  
+                            </a>  
+                        </div>  
+                    </div>
+                    <div class="relative group">
+                        <a href="#" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                            <span class="lang-en">Code</span>  
+                        </a>  
+                        <div class="absolute hidden group-hover:block bg-white/90 dark:bg-dark-200/90 backdrop-blur-sm shadow-md py-2 min-w-[200px] top-full left-0 rounded-lg">  
+                            <a href="/projects/code/StableShape.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">StableShape</span>  
+                            </a>  
+                            <a href="/projects/code/Seg & Predict.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                                <span class="lang-en">Seg & Predict</span>  
+                            </a>  
+                            <a href="/projects/code/Building Generator.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">        
+                                <span class="lang-en">Building Generator</span>  
+                            </a>
+                        </div>  
+                    </div>  
+                    <a href="/about.html" class="px-3 py-2 hover:text-primary-500 dark:hover:text-magenta-400">  
+                        <span class="lang-en">About Me</span>  
+                    </a>  
+                    <div class="flex space-x-2 ml-1">
+                        <a href="https://www.linkedin.com/in/qizhen-song-b30993341/" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">  
+                            <i class="fab fa-linkedin text-xl"></i>  
+                        </a>  
+                        <a href="https://github.com/Robin-Song-Design" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200">  
+                            <i class="fab fa-github text-xl"></i>  
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400 transition-colors duration-200" id="wechatIcon">  
+                            <i class="fab fa-weixin text-xl"></i>  
+                        </a>
+                    </div>
+                    <button id="langToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200">  
+                        <i class="fas fa-language text-gray-600 dark:text-gray-300"></i>  
+                        <span class="ml-1 text-sm font-medium hidden sm:inline">中 / EN</span>  
+                    </button>  
+                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200">  
+                        <i class="fas fa-sun text-gray-600 dark:text-gray-300 dark:hidden"></i>  
+                        <i class="fas fa-moon text-gray-300 hidden dark:block"></i>  
+                    </button>  
+                </div>  
+            </div>
+            
+            <!-- Mobile menu - hidden by default -->
+            <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-dark-200 mt-2 rounded-lg shadow-lg overflow-hidden">
+                <div class="py-2">
+                    <a href="/index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <span class="lang-en">Home</span>
+                    </a>
+                    
+                    <!-- Mobile Design dropdown -->
+                    <div id="mobileDesignDropdown" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="lang-en">Design</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Design menu items -->
+                    <div id="mobileDesignMenu" class="hidden bg-gray-50 dark:bg-dark-300">
+                        <a href="/projects/design/probability.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Probability</span>
+                        </a>
+                        <a href="/projects/design/form-force.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Form and Force</span>
+                        </a>
+                        <a href="/projects/design/still.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Still</span>
+                        </a>
+                        <a href="/projects/design/yokai.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Yokai Hall</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Code dropdown -->
+                    <div id="mobileCodeDropdown" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="lang-en">Code</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Code menu items -->
+                    <div id="mobileCodeMenu" class="hidden bg-gray-50 dark:bg-dark-300">
+                        <a href="/projects/code/StableShape.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">StableShape</span>
+                        </a>
+                        <a href="/projects/code/Seg & Predict.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Seg & Predict</span>
+                        </a>
+                        <a href="/projects/code/Building Generator.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                            <span class="lang-en">Building Generator</span>
+                        </a>
+                    </div>
+                    
+                    <a href="/about.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">
+                        <span class="lang-en">About Me</span>
+                    </a>
+                    
+                    <div class="border-t border-gray-100 dark:border-dark-400 my-2"></div>
+                    
+                    <!-- Social links in mobile menu -->
+                    <div class="flex justify-center space-x-6 py-2">
+                        <a href="https://www.linkedin.com/in/qizhen-song-b30993341/" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="https://github.com/Robin-Song-Design" target="_blank" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="javascript:void(0)" id="mobileWechatIcon" class="text-gray-600 hover:text-primary-500 dark:text-gray-400 dark:hover:text-magenta-400">
+                            <i class="fab fa-weixin text-xl"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 dark:border-dark-400 my-2"></div>
+                    
+                    <!-- Language & Theme toggles in mobile menu -->
+                    <div class="flex px-4 py-2 justify-around">
+                        <button id="mobileLangToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300">
+                            <i class="fas fa-language mr-2"></i>
+                            <span>中 / EN</span>
+                        </button>
+                        <button id="mobileThemeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300">
+                            <i class="fas fa-sun dark:hidden"></i>
+                            <i class="fas fa-moon hidden dark:block"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </nav>
+
+
+    <!-- 项目内容 -->
+    <main class="pt-16 sm:pt-24">
+        <!-- 项目标题区 -->
+        <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-16">
+            <div class="lang-zh lang-content active">
+                <h1 class="text-3xl sm:text-4xl font-light mb-2">稳定形态</h1>
+                <p class="text-lg sm:text-xl font-light text-gray-600 dark:text-gray-300">基于计算流体动力学的形态生成探索GH插件</p>
+            </div>
+            <div class="lang-en lang-content">
+                <h1 class="text-3xl sm:text-4xl font-light mb-2">StableShape</h1>
+                <p class="text-lg sm:text-xl font-light text-gray-600 dark:text-gray-300">Morphology Generation Grasshopper Plugin Based on Computational Fluid Dynamics</p>
+            </div>
+        </header>
+        
+       <!-- 项目大图区域 - WebGL2 Fluid Simulation -->
+       <div class="w-full h-[60vh] sm:h-[80vh] md:h-[100vh] mb-8 sm:mb-16 relative">
+            <!-- 鼠标左击指示 -->  
+            <div class="mouse-guide">  
+                <div class="mouse-icon">  
+                    <svg width="20" height="28" viewBox="0 0 20 28" fill="currentColor">  
+                        <!-- 鼠标外框 -->  
+                        <rect x="2" y="2" width="16" height="24" rx="8" ry="8" fill="none" stroke="currentColor" stroke-width="2"/>  
+                        <!-- 左键区域 -->  
+                        <path d="M2 10 L2 8 C2 5.2 4.2 3 7 3 L10 3 L10 14 L4 14 C2.9 14 2 13.1 2 12 L2 10 Z"   
+                            fill="currentColor" class="left-click"/>  
+                        <!-- 右键区域（未激活） -->  
+                        <path d="M10 3 L13 3 C15.8 3 18 5.2 18 8 L18 10 L18 12 C18 13.1 17.1 14 16 14 L10 14 L10 3 Z"   
+                            fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>  
+                        <!-- 滚轮 -->  
+                        <rect x="9" y="6" width="2" height="4" rx="1" fill="currentColor" opacity="0.6"/>  
+                    </svg>  
+                </div>  
+                <div class="drag-hint">Click and Drag</div>  
+            </div> 
+            <form id="param_form">
+                <div>
+                <label for="pressure">viscosity</label>
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.25" class="slider" id="viscosity">
+                </div>
+                <div>
+                <label for="pressure">pressure</label>
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.25" class="slider" id="pressure">
+                </div>
+                <div>
+                <label for="radius">radius</label>
+                <input type="range" min="0.0" max="1.0" step="0.01" value="0.5" class="slider" id="radius">
+                </div>
+                <div>
+                <label for="velocity_dissipation">velocity dissipation</label>
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.25" class="slider" id="velocity_dissipation">
+                </div>
+                <div>
+                <label for="density_dissipation">density dissipation</label>
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.5" class="slider" id="density_dissipation">
+                </div>
+                <fieldset id="display_radio">
+                <!-- <div>
+                    <input type="radio" id="dye" name="display" value="dye" checked>
+                    <label for="dye">dye</label>
+                </div>
+            
+                <div>
+                    <input type="radio" id="velocity" name="display" value="velocity">
+                    <label for="velocity">velocity</label>
+                </div>
+            
+                <div>
+                    <input type="radio" id="display_pressure" name="display" value="pressure">
+                    <label for="display_pressure">pressure</label>
+                </div> -->
+                </fieldset>
+            </form>
+            <canvas id="fluidsim_canvas" style="background-color: black;" ></canvas>
+            <script src="/js/SF.min.js"></script>
+            <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                <div class="text-center">
+                    <h1 class="text-white text-4xl sm:text-6xl font-light mb-8 opacity-90 drop-shadow-lg">
+                        <span class="lang-en">StableShape</span>
+                    </h1>
+                    <a href="/files/StableShape v0.9.zip"   
+                    download="StableShape"   
+                    class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 space-x-3 pointer-events-auto">  
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>  
+                        </svg>  
+                        <span class="lang-en">Download</span>  
+                    </a> 
+                </div>
+            </div>
+        </div>
+        
+        <!-- 项目描述 - 增加小屏幕间距 -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
+            <div class="col-span-12 md:col-span-4">
+                <div class="lang-zh lang-content active">
+                    <h2 class="text-xl sm:text-2xl font-light mb-3 sm:mb-4">项目概述</h2>
+                </div>
+                <div class="lang-en lang-content">
+                    <h2 class="text-xl sm:text-2xl font-light mb-3 sm:mb-4">Project Overview</h2>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-8">
+                <div class="lang-zh lang-content active">
+                    <p class="mb-4 text-sm sm:text-base">StableShape项目专注于模拟流体动力学和粒子系统，使用计算框架来创建稳定的形态生成。该算法基于Jos Stam的稳定流体方法，通过管理速度场、密度场以及扩散、对流和压力投影等方法来保持流体动力学的稳定性。</p>
+                    <p class="text-sm sm:text-base">项目将流体模拟与形态生成结合，探索了从标量场到形态的转化过程，利用三维中的等势表面平滑地表现流体运动。通过这种方法，我们可以创建出既符合物理规律又具有美学价值的建筑和设计形态。</p>
+                </div>
+                <div class="lang-en lang-content">
+                    <p class="mb-4 text-sm sm:text-base">The StableShape project focuses on simulating fluid dynamics and particle systems using a computational framework to create stable morphogenesis. The algorithm is based on Jos Stam's stable fluid method, maintaining fluid dynamics stability by managing velocity fields, density fields, and methods for diffusion, advection, and pressure projection.</p>
+                    <p class="text-sm sm:text-base">The project combines fluid simulation with morphology generation, exploring the transformation from scalar fields to form, using equipotential surfaces in three dimensions to smoothly represent fluid motion. Through this approach, we can create architectural and design forms that are both physically accurate and aesthetically valuable.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 项目内容 -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 算法框架 -->
+            <div class="mb-12 sm:mb-16 md:mb-24">
+                <div class="max-w-4xl mx-auto mt-4 sm:mt-8 px-2 sm:px-0">
+                    <div class="lang-zh lang-content active">
+                        <h3 class="text-lg sm:text-xl font-light mb-3 sm:mb-4">算法框架</h3>
+                        <p class="text-sm sm:text-base">StableShape算法的核心包括两个主要组件: StableFluid类和ParticleSystem类。StableFluid类管理速度场和密度场，并通过扩散、对流和压力投影等方法解析Navier-Stokes方程。这些方法确保了流体动力学模拟的稳定性。</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">ParticleSystem类则操作由弹簧连接的粒子网格, 允许进行张力计算和网格重建。通过将网格顶点视为受稳定速度场影响的粒子，该框架实现了逼真的流体行为模拟。</p>
+                    </div>
+                    <div class="lang-en lang-content">
+                        <h3 class="text-lg sm:text-xl font-light mb-3 sm:mb-4">Algorithm Framework</h3>
+                        <p class="text-sm sm:text-base">The core of the StableShape algorithm includes two main components: the StableFluid class and the ParticleSystem class. The StableFluid class manages velocity and density fields, resolving the Navier-Stokes equations through methods like diffusion, advection, and pressure projection. These methods ensure the stability of fluid dynamics simulation.</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">The ParticleSystem class operates on a mesh of particles connected by springs, allowing for tension calculations and mesh reconstruction. By treating mesh vertices as particles influenced by a stable velocity field, this framework achieves realistic fluid behavior simulation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-lg dark:bg-gray-200">
+                <img src="/images/project/ss/StableShape.png" alt="Algorithm Framework" class="w-full h-auto">
+            </div>
+            
+            <!-- 从场到形态 -->
+            <div class="mb-12 sm:mb-16 md:mb-24">
+                <div class="max-w-4xl mx-auto mt-4 sm:mt-8 px-2 sm:px-0">
+                    <div class="lang-zh lang-content active">
+                        <h3 class="text-lg sm:text-xl font-light mb-3 sm:mb-4">从场到形态</h3>
+                        <p class="text-sm sm:text-base">项目探索了从标量场到形态的转化过程。在科学中，场是一个物理量，可以通过标量、向量或张量表示，对空间和时间中的每个点都有一个值。例如，电场或磁场是标量场，在二维平面上为每个点提供一个值。在流体情况下，标量场表示流体密度。</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">在三维中，标量场的等势空间是二维的，即等势表面。我们可以使用这些等势表面来表示三维流体，这与二维高度场不同。在这里，任何等势表面都是一个三维闭合体，相当于一条等高线。</p>
+                    </div>
+                    <div class="lang-en lang-content">
+                        <h3 class="text-lg sm:text-xl font-light mb-3 sm:mb-4">From Field to Morphology</h3>
+                        <p class="text-sm sm:text-base">The project explores the transformation from scalar fields to morphology. In science, a field is a physical quantity, represented by a scalar, vector, or tensor, that has a value for each point in space and time. Examples of scalar fields are electric or magnetic fields, containing values for each point on a 2D plane. In the fluid case, our scalar field represents fluid density.</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">In three dimensions, the equipotential space of a scalar field is two-dimensional, that is, equipotential surfaces. We can use these equipotential surfaces to represent three-dimensional fluid, which differs from a 2D height field. Here, any equipotential surface is a three-dimensional closed body, equivalent to a contour line.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 形态生成方法 -->
+            <div class="my-8 sm:my-12 md:my-16">
+                <div class="lang-zh lang-content active">
+                    <h3 class="text-xl sm:text-2xl font-light mb-4 sm:mb-6 text-center">形态生成方法</h3>
+                </div>
+                <div class="lang-en lang-content">
+                    <h3 class="text-xl sm:text-2xl font-light mb-4 sm:mb-6 text-center">Morphogenesis Methods</h3>
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg dark:bg-gray-200">
+                    <img src="/images/project/ss/StableShape2.png" alt="Morphogenesis Methods" class="w-full h-auto mx-auto">
+                </div>
+                <div class="max-w-4xl mx-auto mt-4 sm:mt-8 px-2 sm:px-0">
+                    <div class="lang-zh lang-content active">
+                        <p class="text-sm sm:text-base">StableShape提供了两种生成形态的方法：VDB方法和网格方法。VDB方法使用Dendro插件将密度点转换为体积。网格方法则使用粒子系统处理网格。通过这两种方法，可以从简单的基本形状逐步演化出复杂的流体形态。</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">项目利用Grasshopper界面进行交互设计，包括网格构建、VDB处理、StableFluid求解器和ParticleSystem求解器等组件。这种工作流程允许设计师直接操作并实时观察形态的演变过程。</p>
+                    </div>
+                    <div class="lang-en lang-content">
+                        <p class="text-sm sm:text-base">StableShape offers two methods for generating morphology: the VDB method and the mesh method. The VDB method uses the Dendro plugin to convert density points to volumes. The mesh method employs the particle system to process meshes. Through these two methods, complex fluid forms can be evolved from simple primitive shapes.</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">The project utilizes the Grasshopper interface for interactive design, including components such as grid construction, VDB processing, StableFluid solver, and ParticleSystem solver. This workflow allows designers to directly manipulate and observe the evolution of forms in real-time.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 实现过程 -->
+            <div class="my-8 sm:my-12 md:my-16">
+                <div class="lang-zh lang-content active">
+                    <h3 class="text-xl sm:text-2xl font-light mb-4 sm:mb-6 text-center">实现过程</h3>
+                </div>
+                <div class="lang-en lang-content">
+                    <h3 class="text-xl sm:text-2xl font-light mb-4 sm:mb-6 text-center">Implementation Process</h3>
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg dark:bg-gray-200">
+                    <img src="/images/project/ss/StableShape3.png" alt="Implementation Process" class="w-full h-auto mx-auto">
+                </div>
+                <div class="max-w-4xl mx-auto mt-4 sm:mt-8 px-2 sm:px-0">
+                    <div class="lang-zh lang-content active">
+                        <p class="text-sm sm:text-base">流体求解器的实现过程包括初始化、添加密度、更新速度场和更新密度场四个主要步骤。每个时间步中，算法通过扩散、投影和对流操作来解析Navier-Stokes方程，确保流体模拟的物理准确性和数值稳定性。</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">网格求解器则处理粒子系统，包括网格拓扑处理、粒子移动、张力应用和网格重建。通过这些步骤，系统可以生成随时间演变的流体形态，为建筑和设计探索提供新的可能性。</p>
+                    </div>
+                    <div class="lang-en lang-content">
+                        <p class="text-sm sm:text-base">The implementation process of the fluid solver includes four main steps: initialization, adding density, updating the velocity field, and updating the density field. In each time step, the algorithm resolves the Navier-Stokes equations through diffusion, projection, and advection operations, ensuring physical accuracy and numerical stability of the fluid simulation.</p>
+                        <p class="mt-3 sm:mt-4 text-sm sm:text-base">The mesh solver processes the particle system, including mesh topology processing, particle movement, tension application, and mesh reconstruction. Through these steps, the system can generate fluid forms that evolve over time, providing new possibilities for architectural and design exploration.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 项目导航 - 移动端优化 -->
+            <div class="border-t border-gray-200 dark:border-gray-800 py-6 sm:py-8 mt-12 flex flex-col sm:flex-row justify-between space-y-6 sm:space-y-0">
+                
+                <a href="/projects/design/form-force.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-magenta-400 transition-colors text-right">
+                    <div class="flex items-center">
+                        <div>
+                            <div class="text-sm text-gray-500 dark:text-gray-500">
+                                <span class="lang-zh">下一个项目</span>
+                                <span class="lang-en">Next Project</span>
+                            </div>
+                            <div>
+                                <span class="lang-zh">形与力</span>
+                                <span class="lang-en">Form and Force</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-arrow-right ml-3"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!-- 微信二维码弹窗 -->
+    <div id="wechatModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-dark-200 rounded-lg shadow-xl p-6 max-w-sm mx-auto text-center transform transition-all">
+            
+            <div class="mb-4">
+                <img src="/images/weixin.jpg" alt="WeChat QR Code" class="w-48 h-64 mx-auto">
+            </div>
+            <button id="closeModal" class="px-4 py-2 bg-primary-500 dark:bg-magenta-500 text-white rounded hover:bg-primary-600 dark:hover:bg-magenta-600 transition-colors">
+                <span class="lang-en">Close</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-dark-200 shadow-inner mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="lang-zh lang-content active">
+                        <p class="text-xl dark:text-gray-400">© 2025 个人作品集. 保留所有权利.</p>
+                    </div>
+                    <div class="lang-en lang-content">
+                        <p class="text-gray-600 dark:text-gray-400">© 2025 Personal Portfolio. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-primary-500 dark:bg-magenta-500 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-600 dark:hover:bg-magenta-700">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="/js/theme.js"></script>
+    <script src="/js/language.js" defer></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/tilt.js"></script>
+    
+</body>
+</html>
