@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +74,7 @@
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
     <!-- 导航栏 -->  
-    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm">  
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <div class="flex justify-between h-16">  
                 <!-- Logo & Site Name -->
@@ -146,10 +145,6 @@
                             <i class="fab fa-weixin text-xl"></i>  
                         </a>
                     </div>
-                    <button id="langToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200">  
-                        <i class="fas fa-language text-gray-600 dark:text-gray-300"></i>  
-                        <span class="ml-1 text-sm font-medium hidden sm:inline">中 / EN</span>  
-                    </button>  
                     <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200">  
                         <i class="fas fa-sun text-gray-600 dark:text-gray-300 dark:hidden"></i>  
                         <i class="fas fa-moon text-gray-300 hidden dark:block"></i>  
@@ -244,12 +239,12 @@
     </nav>
 
     <!-- 项目内容 -->
-    <main class="pt-16 sm:pt-24">
+    <main class="pt-0">
         <!-- 项目标题区 - 主横幅图片 -->
-        <div class="w-full h-[60vh] sm:h-[80vh] md:h-[100vh] mb-8 sm:mb-16 relative overflow-hidden">
+        <div class="w-full h-screen relative overflow-hidden">
             <!-- 主背景图片 -->
             <div class="absolute inset-0">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                <img src="https://i.imgur.com/6C0m54l.gif" 
                      alt="London Urban Planning" 
                      class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 via-purple-900/60 to-indigo-900/60"></div>
@@ -265,21 +260,19 @@
                         <span class="lang-en">Agent-based Reinforcement Learning to Increase Housing Density in London</span>
                     </p>
                     <div class="flex justify-center space-x-4">
-                        <button class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-3 rounded-lg hover:bg-white/30 transition-all duration-300 space-x-2">  
-                            <i class="fas fa-play text-sm"></i>
-                            <span class="lang-en">View Demo</span>  
-                        </button>
-                        <button class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-3 rounded-lg hover:bg-white/30 transition-all duration-300 space-x-2">  
+                        <a href="/files/AC_DigitalStudio_WrittenReport_03-27.pdf"
+                            target="_blank"
+                            class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-3 rounded-lg hover:bg-white/30 transition-all duration-300 space-x-2">  
                             <i class="fas fa-download text-sm"></i>
                             <span class="lang-en">Download Paper</span>  
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- 项目描述 -->
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
+        <div class="pt-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
             <div class="col-span-12 md:col-span-4">
                 <div>
                     <h2 class="text-xl sm:text-2xl font-light mb-3 sm:mb-4">Project Overview</h2>
@@ -340,9 +333,9 @@
                 
                 <!-- 方法论流程图 -->
                 <div class="rounded-lg overflow-hidden shadow-lg mb-8">
-                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                    <img src="https://i.imgur.com/g8w6oBU.png" 
                          alt="AI Methodology Workflow" 
-                         class="w-full h-96 object-cover">
+                         class="w-full h-auto object-cover">
                 </div>
                 
                 <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 p-8 rounded-lg">
@@ -874,4 +867,18 @@
                         </div>  
                     </div>  
                 </div>  
-            </footer>  
+            </footer>
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-primary-500 dark:bg-magenta-500 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-600 dark:hover:bg-magenta-700">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="/js/theme.js"></script>
+    <script src="/js/language.js" defer></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/tilt.js"></script>
+    
+</body>
+</html>

@@ -33,39 +33,12 @@
                             800: '#9a3412',
                             900: '#7c2d12',
                         },
-                        secondary: {
-                            // 灰色系列(亮色模式辅助色) 
-                            50: '#f9fafb',
-                            100: '#f3f4f6',
-                            200: '#e5e7eb',
-                            300: '#d1d5db',
-                            400: '#9ca3af',
-                            500: '#6b7280',
-                            600: '#4b5563',
-                            700: '#374151',
-                            800: '#1f2937',
-                            900: '#111827',
-                        },
                         dark: {
                             // 深色背景
                             100: '#121218',
                             200: '#1e1e2a',
                             300: '#2c2c3a',
                             400: '#3a3a4a',
-                        },
-                        // 暗色模式专用颜色
-                        cyan: {
-                            // 青色(暗色模式主色)
-                            50: '#ecfeff',
-                            100: '#cffafe',
-                            200: '#a5f3fc',
-                            300: '#67e8f9',
-                            400: '#22d3ee',
-                            500: '#06b6d4',
-                            600: '#0891b2',
-                            700: '#0e7490',
-                            800: '#155e75',
-                            900: '#164e63',
                         },
                         magenta: {
                             // 品红色(暗色模式辅助色)
@@ -134,7 +107,7 @@
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
     <!-- 导航栏 -->  
-    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm">  
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <div class="flex justify-between h-16">  
                 <!-- Logo & Site Name -->
@@ -298,9 +271,8 @@
         </div>  
     </nav>
 
-
     <!-- 项目内容 -->
-    <main class="pt-16 sm:pt-24">
+    <main class="pt-0">
         <!-- 项目标题区 -->
         
        <!-- 项目大图区域 - WebGL2 Fluid Simulation -->
@@ -326,7 +298,7 @@
             <form id="param_form">
                 <div>
                 <label for="pressure">viscosity</label>
-                <input type="range" min="0.0" max="1.0" step="0.001" value="0.25" class="slider" id="viscosity">
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.50" class="slider" id="viscosity">
                 </div>
                 <div>
                 <label for="pressure">pressure</label>
@@ -342,7 +314,7 @@
                 </div>
                 <div>
                 <label for="density_dissipation">density dissipation</label>
-                <input type="range" min="0.0" max="1.0" step="0.001" value="0.5" class="slider" id="density_dissipation">
+                <input type="range" min="0.0" max="1.0" step="0.001" value="0.25" class="slider" id="density_dissipation">
                 </div>
                 <fieldset id="display_radio">
                 <!-- <div>
@@ -368,29 +340,29 @@
                     <h1 class="text-white text-4xl sm:text-6xl font-light mb-8 opacity-90 drop-shadow-lg">
                         <span class="lang-en">StableShape</span>
                     </h1>
-                    <a href="/files/StableShape v0.9.zip"   
-                    download="StableShape"   
+                    <a href="/files/StableShape v0.9.zip"
+                    download="StableShape"
                     class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 space-x-3 pointer-events-auto">  
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>  
                         </svg>  
-                        <span class="lang-en">Download</span>  
+                        <span class="lang-en">Download Latest Release</span>  
                     </a> 
                 </div>
             </div>
         </div>
         
-        <!-- 项目描述 - 增加小屏幕间距 -->
+        <!-- 项目描述 -->
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
-            <div class="col-span-12 md:col-span-4">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-light mb-3 sm:mb-4">Project Overview</h2>
-                </div>
-            </div>
-            <div class="col-span-12 md:col-span-8">
-                <div>
-                    <p class="mb-4 text-sm sm:text-base">The StableShape project focuses on simulating fluid dynamics and particle systems using a computational framework to create stable morphogenesis. The algorithm is based on Jos Stam's stable fluid method, maintaining fluid dynamics stability by managing velocity fields, density fields, and methods for diffusion, advection, and pressure projection.</p>
-                    <p class="text-sm sm:text-base">The project combines fluid simulation with morphology generation, exploring the transformation from scalar fields to form, using equipotential surfaces in three dimensions to smoothly represent fluid motion. Through this approach, we can create architectural and design forms that are both physically accurate and aesthetically valuable.</p>
+            <div class="col-span-12">
+                <div class="w-full aspect-video rounded-lg overflow-hidden shadow-lg">
+                    <iframe 
+                        src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7340807801595641858?compact=1" 
+                        class="w-full h-full"
+                        frameborder="0" 
+                        allowfullscreen="true" 
+                        title="Embedded post">
+                    </iframe>
                 </div>
             </div>
         </div>

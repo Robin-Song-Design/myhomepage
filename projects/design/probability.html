@@ -71,8 +71,8 @@
 
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
-    <<!-- 导航栏 -->  
-    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+    <!-- 导航栏 -->  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm">  
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <div class="flex justify-between h-16">  
                 <!-- Logo & Site Name -->
@@ -238,22 +238,32 @@
 
 
     <!-- 项目内容 -->  
-    <main class="pt-24">  
-        <!-- 项目标题区 -->  
-        <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-16">   
-            <div class="lang-en">  
-                <h1 class="text-3xl sm:text-4xl font-light mb-2">Probability</h1>  
-                <p class="text-lg sm:text-xl font-light text-gray-600 dark:text-gray-300">Collective residential building generated using Wave Function Collapse algorithm</p>  
-            </div>  
-        </header>
-        
-        <!-- 项目大图 -->  
-        <div class="w-full mb-8 sm:mb-16">  
-            <img src="https://i.imgur.com/yrmxu6h.jpeg" alt="Probability Community" class="w-full h-full object-cover">  
+    <main class="pt-0">  
+        <!-- 项目标题区 - 主横幅图片 -->
+        <div class="w-full h-screen relative overflow-hidden">
+            <!-- 主背景图片 -->
+            <div class="absolute inset-0">
+                <img src="https://i.imgur.com/yrmxu6h.jpeg" 
+                    alt="Probability Community" 
+                    class="w-full h-full object-cover">  
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-purple-900/30 to-indigo-900/30"></div>
+            </div>
+            
+            <!-- 项目标题居中 -->
+            <div class="absolute inset-0 flex items-center justify-center z-10">
+                <div class="text-center text-white">
+                    <h1 class="text-4xl sm:text-6xl font-light mb-4 opacity-90 drop-shadow-lg">
+                        <span class="lang-en">Probability</span>
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-light mb-8 opacity-80">
+                        <span class="lang-en">Collective residential building generated using Wave Function Collapse algorithm</span>
+                    </p>
+                </div>
+            </div>
         </div>
         
         <!-- 项目描述 -->  
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-8 sm:mb-16">  
+        <div class="pt-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-8 sm:mb-16">  
             <div class="col-span-1 md:col-span-4">  
                 <div class="lang-en">  
                     <h2 class="text-2xl font-light mb-4">Project Overview</h2>  
