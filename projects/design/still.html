@@ -73,7 +73,7 @@
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200 transition-colors duration-300">
     <!-- 导航栏 -->  
-    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/90">  
+    <nav class="fixed top-0 z-50 w-full bg-white/10 backdrop-blur-sm dark:bg-dark-100/20">  
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <div class="flex justify-between h-16">  
                 <!-- Logo & Site Name -->
@@ -122,7 +122,7 @@
                             <a href="/projects/code/StableShape.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
                                 <span class="lang-en">StableShape</span>  
                             </a>  
-                            <a href="/projects/code/Seg & Predict.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
+                            <a href="/projects/code/Seg.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">  
                                 <span class="lang-en">Seg & Predict</span>  
                             </a>  
                             <a href="/projects/code/Building Generator.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark-300">        
@@ -196,7 +196,7 @@
                         <a href="/projects/code/StableShape.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
                             <span class="lang-en">StableShape</span>
                         </a>
-                        <a href="/projects/code/Seg & Predict.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
+                        <a href="/projects/code/Seg.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
                             <span class="lang-en">Seg & Predict</span>
                         </a>
                         <a href="/projects/code/Building Generator.html" class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-dark-400">
@@ -238,22 +238,32 @@
     </nav>
 
    <!-- 项目内容 -->  
-    <main class="pt-16 sm:pt-24">  
-        <!-- 项目标题区 -->  
-        <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-16">   
-            <div class="lang-en">  
-                <h1 class="text-3xl sm:text-4xl font-light mb-2">Still</h1>  
-                <p class="text-lg sm:text-xl font-light text-gray-600 dark:text-gray-300">Climber's shelter design on the top of the Polish mountain</p>  
-            </div>  
-        </header>  
-        
-        <!-- 项目大图 - 移动端高度调整 -->  
-        <div class="w-full h-[70vh] sm:h-[80vh] md:h-[150vh] mb-8 sm:mb-16">  
-            <img src="https://i.imgur.com/U43DSeZ.jpeg" alt="Still Project" class="w-full h-full object-cover">  
-        </div>  
+    <main class="pt-0">  
+        <!-- 项目标题区 - 主横幅图片 -->
+        <div class="w-full h-screen relative overflow-hidden">
+            <!-- 主背景图片 -->
+            <div class="absolute inset-0">
+                <img src="https://i.imgur.com/U43DSeZ.jpeg" 
+                    alt="Probability Community" 
+                    class="w-full h-full object-cover">  
+                <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 via-orange-900/20 to-white-900/30"></div>
+            </div>
+            
+            <!-- 项目标题居中 -->
+            <div class="absolute inset-0 flex items-center justify-center z-10">
+                <div class="text-center text-white">
+                    <h1 class="text-4xl sm:text-6xl font-light mb-4 opacity-90 drop-shadow-lg">
+                        <span class="lang-en">Still</span>
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-light mb-8 opacity-80">
+                        <span class="lang-en">Climber's shelter design on the top of the Polish mountain</span>
+                    </p>
+                </div>
+            </div>
+        </div>
         
         <!-- 项目描述 - 增加小屏幕间距 -->  
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">  
+        <div class="pt-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">  
             <div class="col-span-12 md:col-span-4">  
                 <div class="lang-en">  
                     <h2 class="text-xl sm:text-2xl font-light mb-3 sm:mb-4">Project Overview</h2>  
